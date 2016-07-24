@@ -7,58 +7,58 @@ using System.IO;
 
 public class BuildPostProcess
 {
-    [PostProcessBuild]
-    static void OnPostprocessBuild(BuildTarget buildTarget, string path)
-    {
-    	Debug.Log("== OnPostprocessBuild : " + buildTarget + " path : " + path);
-        if (buildTarget == BuildTarget.iOS) {
+	[PostProcessBuild]
+	static void OnPostprocessBuild(BuildTarget buildTarget, string path)
+	{
+		Debug.Log("== OnPostprocessBuild : " + buildTarget + " path : " + path);
+		if (buildTarget == BuildTarget.iOS) {
 			UpdateiOSInfoPlist(path);
 		} 
 		if (buildTarget == BuildTarget.StandaloneOSXIntel || buildTarget == BuildTarget.StandaloneOSXIntel64 || buildTarget == BuildTarget.StandaloneOSXUniversal) {
 			UpdatemacOSInfoPlist(path, buildTarget);
-        }
-
-    }
+		}
+	
+	}
 
 
 	private static void UpdateiOSInfoPlist(string path) {
-
-    Debug.Log("== UpdateiOSInfoPlist");
-
+	
+		Debug.Log("== UpdateiOSInfoPlist");
+		
 		// MODIFICATION DU PLIST
-    var plistPath = Path.Combine(path, "Info.plist");
-
-    var plist = new PlistDocument();
-    plist.ReadFromFile(plistPath);
-
-    // ajout des localisations
+		var plistPath = Path.Combine(path, "Info.plist");
+		
+		var plist = new PlistDocument();
+		plist.ReadFromFile(plistPath);
+	
+		// ajout des localisations
 		PlistElementArray CFBundleLocalizations = plist.root.CreateArray("CFBundleLocalizations");
 		CFBundleLocalizations.AddString ("en");
 		CFBundleLocalizations.AddString ("fr");
 		CFBundleLocalizations.AddString ("de");
 		CFBundleLocalizations.AddString ("ja");
 		CFBundleLocalizations.AddString ("es");
-
+	
 		// le numero du build
 		plist.root.SetString("CFBundleVersion", DateTime.Now.ToString("yyyyMMddHHmmss"));
-
-    plist.WriteToFile(plistPath);
-
+	
+		plist.WriteToFile(plistPath);
+	
 	}
 
 	private static void UpdatemacOSInfoPlist(string path, BuildTarget buildTarget) {
 
-    Debug.Log("== UpdatemacOSInfoPlist");
+    		Debug.Log("== UpdatemacOSInfoPlist");
 		// infos complementaires : https://gentlymad.org/blog/post/deliver-mac-store-unity
 
 		// MODIFICATION DU PLIST
 		//string buildFolderPath = EditorUserBuildSettings.GetBuildLocation(buildTarget);
 		string plistPath = path + "/Contents/Info.plist";
 
-    var plist = new PlistDocument();
-    plist.ReadFromFile(plistPath);
-
-    // ajout des localisations
+		var plist = new PlistDocument();
+		plist.ReadFromFile(plistPath);
+		
+		// ajout des localisations
 		PlistElementArray CFBundleLocalizations = plist.root.CreateArray("CFBundleLocalizations");
 		CFBundleLocalizations.AddString ("en");
 		CFBundleLocalizations.AddString ("fr");
@@ -96,7 +96,7 @@ public class BuildPostProcess
 
 
 
-    plist.WriteToFile(plistPath);
+		plist.WriteToFile(plistPath);
 
 
 	}
