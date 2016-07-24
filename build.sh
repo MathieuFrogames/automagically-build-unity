@@ -106,7 +106,11 @@ echo "pc_steam - OK"
 
 
 # upload STEAM
-#./steamcmd.sh +login xxxxxx yyyyyyy +run_app_build ../scripts/app_build_00000.vdf +quit
+#../steam/Steamworks/tools/ContentBuilder/builder_osx2/steamcmd.sh +login xxxxxx yyyyyyy +run_app_build ../scripts/app_build_00000.vdf +quit
 
+# upload ITCH.IO
+#../itchio/butler upgrade
+#../itchio/butler push builds/mac_drmfree/Discovering\ Colors\ Mac.zip frogames/discovering-colors-animals:osx
+#../itchio/butler push builds/pc_drmfree/Discovering\ Colors\ PC.zip frogames/discovering-colors-animals:win
 
 exit 0
